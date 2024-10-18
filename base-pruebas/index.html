@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones Seno y Coseno - Three.js</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    // Inicializar la escena
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Configuración de la cámara
+    camera.position.z = 5;
+
+    // Función para generar geometría de curva seno
+    function generarCurvaSeno(amplitud, frecuencia, numPuntos, desplazamiento) {
+        const points = [];
+        const step = (Math.PI * 2) / numPuntos; // Paso entre puntos
+        for (let i = 0; i <= numPuntos; i++) {
+            const x = i * step;
+            const y = amplitud * Math.sin(frecuencia * x) + desplazamiento;
+            points.push(new THREE.Vector3(x, y, 0));
+        }
+        return new THREE.BufferGeometry().setFromPoints(points);
+    }
+
+    // Función para generar geometría de curva coseno
+    function generarCurvaCoseno(amplitud, frecuencia, numPuntos, desplazamiento) {
+        const points = [];
+        const step = (Math.PI * 2) / numPuntos; // Paso entre puntos
+        for (let i = 0; i <= numPuntos; i++) {
+            const x = i * step;
+            const y = amplitud * Math.cos(frecuencia * x) + desplazamiento;
+            points.push(new THREE.Vector3(x, y, 0));
+        }
+        return new THREE.BufferGeometry().setFromPoints(points);
+    }
+
+    // Material para las líneas
+    const material = new THREE.LineBasicMaterial({ color: 0xffffff });
+
+    // Generar curvas seno y coseno
+    const senoGeometry = generarCurvaSeno(1, 1, 50, 1);
+    const cosenoGeometry = generarCurvaCoseno(1, 1, 50, -1);
+
+    // Crear las líneas
+    const senoLine = new THREE.Line(senoGeometry, material);
+    const cosenoLine = new THREE.Line(cosenoGeometry, material);
+
+    // Añadir las líneas a la escena
+    scene.add(senoLine);
+    scene.add(cosenoLine);
+
+    // Función de animación
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+
+    // Iniciar la animación
+    animate();
+
+    // Ajustar el tamaño de la ventana cuando se redimensiona
+    window.addEventListener('resize', () => {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
+</script>
+</body>
+</html>
