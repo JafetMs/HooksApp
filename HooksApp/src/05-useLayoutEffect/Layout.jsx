@@ -1,8 +1,7 @@
 import { useCounter, useFetch } from "../hooks";
-import { LoadingMessage } from "./LoadingMessage";
-import { PokemonCard } from "./PokemonCard";
+import { LoadingMessage, PokemonCard } from "../03-examples";
 
-export const MultipleCustomHook = () => {
+export const Layout = () => {
   const { counter, increment, decrement } = useCounter(1);
   const { data, isLoading, hasError } = useFetch(
     `https://pokeapi.co/api/v2/pokemon/${counter}`,
@@ -33,7 +32,7 @@ export const MultipleCustomHook = () => {
       )}
 
       <button
-        className="btn btn-primary mt-2 "
+        className="btn btn-primary mt-2 me-3 "
         onClick={() => (counter > 1 ? decrement() : null)}
       >
         Previous
