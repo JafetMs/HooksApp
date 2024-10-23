@@ -1,7 +1,10 @@
+import { memo } from "react";
 
+export const Small = memo(({ value}) => {
 
-export const Small = ({ value}) => {
+    console.log(' Me volvi a generar');
+    
   return (
     <small>{ value} </small>
   )
-}
+})
